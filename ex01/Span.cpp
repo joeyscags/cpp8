@@ -24,7 +24,9 @@ Span::~Span()
 
 void Span::addNumber(int n)
 {
-	(void)n;
+	if (_numbers.size() >= _maxSize)
+		throw std::overflow_error("Span is full, cannot add more numbers");
+	_numbers.push_back(n);
 }
 
 int Span::shortestSpan() const
