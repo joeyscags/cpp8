@@ -17,6 +17,18 @@ public:
 	int				shortestSpan() const;
 	int				longestSpan() const;
 
+	template <typename Iterator>
+	void			addNumbers(Iterator begin, Iterator end)
+	{
+		while (begin != end)
+		{
+			if (_numbers.size() >= _maxSize)
+				throw std::overflow_error("Span is full, cannot add more numbers");
+			_numbers.push_back(*begin);
+			++begin;
+		}
+	}
+
 private:
 	unsigned int		_maxSize;
 	std::vector<int>	_numbers;
