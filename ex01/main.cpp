@@ -75,5 +75,48 @@ int main(void)
 		printResult("addNumbers: longestSpan == 8",  sp.longestSpan() == 8);
 	}
 
+	// --- addNumbers overflow mid-range ---
+	{
+		std::vector<int> src = {1, 2, 3, 4, 5};
+		Span sp(3);
+		try {
+			sp.addNumbers(src.begin(), src.end());
+			printResult("addNumbers: throws when overflowing mid-range", false);
+		} catch (const std::exception &e) {
+			printResult("addNumbers: throws when overflowing mid-range", true);
+		}
+	}
+
+	// --- large dataset: 10,000 numbers ---
+	{
+		const unsigned int SIZE = 10000;
+		Span sp(SIZE);
+		std::vector<int> big(SIZE);
+		std::iota(big.begin(), big.end(), 0); // 0..9999
+		sp.addNumbers(big.begin(), big.end());
+		printResult("large dataset: shortestSpan == 1", sp.shortestSpan() == 1);
+		printResult("large dataset: longestSpan == 9999", sp.longestSpan() == 9999);
+	}
+
+	// --- copy constructor ---
+	{
+		Span sp1(3);
+		sp1.addNumber(10);
+		sp1.addNumber(20);
+		sp1.addNumber(30);
+		Span sp2(sp1);
+		printResult("copy constructor: longestSpan == 20", sp2.longestSpan() == 20);
+	}
+
+	// --- assignment operator ---
+	{
+		Span sp1(3);
+		sp1.addNumber(100);
+		sp1.addNumber(1);
+		Span sp2(1);
+		sp2 = sp1;
+		printResult("assignment operator: longestSpan == 99", sp2.longestSpan() == 99);
+	}
+
 	return 0;
 }
